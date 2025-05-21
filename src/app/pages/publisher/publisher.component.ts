@@ -4,7 +4,7 @@ import { Publisher } from '../../model/publisher';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import { MatFormField } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
@@ -13,8 +13,8 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-publisher',
-  imports: [MatTableModule, MatFormField, MatInput,MatButton,MatIconModule, MatPaginatorModule,
-    MatSortModule,RouterLink,RouterOutlet
+  imports: [MatTableModule, MatFormField, MatInput,MatButtonModule,MatIconModule, MatPaginatorModule,
+    MatSortModule,RouterLink,RouterOutlet,RouterLink
   ],
   templateUrl: './publisher.component.html',
   styleUrl: './publisher.component.css'

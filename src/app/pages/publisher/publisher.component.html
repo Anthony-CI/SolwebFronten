@@ -1,3 +1,4 @@
+<router-outlet></router-outlet>
 <mat-form-field> 
   <input matInput (keyup)="applyFilter($event)"
   placeholder="Ex. Prentice" > 
@@ -26,8 +27,8 @@
 
     <ng-container matColumnDef="actions">
       <th mat-header-cell *matHeaderCellDef> actions </th>
-      <td mat-cell *matCellDef="let item">
-      <button mat-button>
+      <td mat-cell *matCellDef="let element">
+      <button mat-button [routerLink]= "['edit', element.idPublisher]">
         <mat-icon> mode_edit</mat-icon> Edit
       </button>
       <button mat-button>
@@ -40,13 +41,13 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> -->
     <!--llamamos a la funcion definida en ts -->
     <tr mat-header-row *matHeaderRowDef="getDisplayColums()"></tr>
-    <tr mat-row *matRowDef="let row; columns: getDisplayColums();"></tr>
+    <tr mat-row *matRowDef="let element; columns: getDisplayColums();"></tr>
   </table>
 
   <mat-paginator
   [pageSizeOptions]="[1, 5, 10, 100]"
   aria-label="pagina de editoriales"></mat-paginator>
 
-  <button mat-flat-style = "float : rigt;" routerLink="/pages/publisher ">
+  <button mat-flat style = "float : right" routerLink="/pages/publisher/new">
     <mat-icon> add </mat-icon>
   </button >
