@@ -9,6 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 
 @Component({
@@ -23,7 +24,7 @@ export class PublisherComponent {
   //publishers: Publisher[];
   displayedColumns: string[] = ['idPublisher', 'name', 'address'];
   dataSource: MatTableDataSource<Publisher>;
-  //constructor(private publisherService: PublisherService){}
+  
  
   //arreglo personalizado
   columDefinitions = [
@@ -36,16 +37,24 @@ export class PublisherComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  publisherService = inject(PublisherService);
-
+  //publisherService = inject(PublisherService);
+  constructor(private publisherService: PublisherService){}
   ngOnInit():void{
     // this.publisherService.findAll().subscribe(data => console.log(data));
     //this.publisherService.findAll().subscribe(data => this.publishers = data);
     this.publisherService.findAll().subscribe(data => {
-      this.dataSource= new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
+        this.createTabe(data);
     }); 
+
+    this.publisherService.getPublisherChange().subscribe(data => this.createTabe(data));
+
+  }
+
+  //METODO DE CREACION DE LA TABLA
+  createTabe(data){
+    this.dataSource= new MatTableDataSource(data);
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
   }
 
   //metodo para habilitar la busqueda
@@ -56,6 +65,15 @@ export class PublisherComponent {
   //metodo mostrar columnas que no tienen el atributo hide=true
   getDisplayColums(){
     return this.columDefinitions.filter(cd => !cd.hide).map(cd => cd.def);
+  }
+
+  //metodo para eliminar 
+  delate(id:number){
+    this.publisherService.delate(id)
+    .pipe(switchMap(() => this.publisherService.findAll()))
+    .subscribe(data => {
+      this.publisherService.setPublisherChange(data);
+    });
   }
 
 }

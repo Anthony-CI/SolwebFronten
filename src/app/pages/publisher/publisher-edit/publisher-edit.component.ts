@@ -4,9 +4,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormField, MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { Publisher } from '../../../model/publisher';
 import { PublisherService } from '../../../services/publisher.service';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-publisher-edit',
@@ -28,7 +29,8 @@ export class PublisherEditComponent {
 
   constructor(
     private publisherService: PublisherService,
-    private route : ActivatedRoute //para saber la ruta activa
+    private route : ActivatedRoute, //para saber la ruta activa
+    private router: Router// permite mover de pagina
   ){}
 
   ngOnInit(){
@@ -73,11 +75,27 @@ export class PublisherEditComponent {
     publisher.name=this.form.value['name'];
     publisher.address=this.form.value['address'];
     if(this.isEdit){
-      this.publisherService.update(this.id,publisher).subscribe();
+      //edit
+      //this.publisherService.update(this.id,publisher).subscribe();
+      //PRACTICA COMUN NO IDEAL
+      this.publisherService.update(this.id,publisher).subscribe(()=>{
+        this.publisherService.findAll().subscribe(data =>{
+          this.publisherService.setPublisherChange(data);
+        });
+      });
+      // this.router.navigate(['pages/publisher']);
     }else {
-      this.publisherService.save(publisher).subscribe();
+      //save
+      //this.publisherService.save(publisher).subscribe();
+      //PRACTICA RECOMENDADA
+      this.publisherService.save(publisher)
+      .pipe(switchMap(() => this.publisherService.findAll()))
+      .subscribe(data =>{
+        this.publisherService.setPublisherChange(data)
+      });
     }
-    //save
-    this.publisherService.save(publisher).subscribe()
+
+    this.router.navigate(['pages/publisher']);
+    
   }
 }

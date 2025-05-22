@@ -2,12 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Publisher } from '../model/publisher';
 import { environment } from '../../environments/environment.development';
+import { Subject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PublisherService {
   private url: string=`${environment.HOST}/publishers`;
+  private publisherChange: Subject<Publisher[]> = new Subject<Publisher[]>;
 
   constructor(private http: HttpClient) { }
 
@@ -26,7 +28,16 @@ export class PublisherService {
     return this.http.put(`${this.url}/${id}`, publisher);
   }
   delate(id:number){
-    return this.http.delete(`$(this.url)/${id}`);
+    return this.http.delete(`${this.url}/${id}`);
+  }
+  //////////////////////////////
+
+  setPublisherChange(data :Publisher[]){
+    this.publisherChange.next(data);
+  }
+
+  getPublisherChange(){
+    return this.publisherChange.asObservable();
   }
 
 }
