@@ -1,0 +1,58 @@
+<form class="example-container" *ngIf="form" [formGroup]="form" (submit)="operate()">
+<div [hidden]="true">
+        <mat-form-field>
+            <input matInput placeholder="ID" formControlName="idBook">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field>
+        <input matInput placeholder="Title" formControlName="title">
+
+        <mat-error *ngIf="form.get('title')?.touched && form.get('title')?.hasError('required')">
+        El título es requerido
+        </mat-error>
+
+    </mat-form-field>
+
+
+
+    <mat-form-field>
+        <input matInput placeholder="subtitle" formControlName="subtitle">
+
+        <mat-error *ngIf="form.get('subtitle')?.touched && form.get('subtitle')?.hasError('required')">
+        El subtítulo es requerido
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input matInput placeholder="description" formControlName="description">
+
+        <mat-error *ngIf="form.get('description')?.touched && form.get('description')?.hasError('required')">
+        La descripción es requerida
+        </mat-error>
+    </mat-form-field>
+
+
+    <mat-form-field>
+        <input matInput placeholder="idPublisher" formControlName="idPublisher">
+    </mat-form-field>
+
+
+
+    <mat-form-field>
+        <input matInput placeholder="idCategory" formControlName="idCategory">
+    </mat-form-field>
+
+
+
+    <button mat-button type="submit">
+        <mat-icon>done</mat-icon>
+        <span>Done</span>
+    </button>
+
+    <button mat-button type="button" routerLink="/pages/book">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+    </button>
+</form>
