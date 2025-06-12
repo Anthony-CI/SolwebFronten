@@ -6,8 +6,9 @@ import { BookComponent } from './pages/book/book.component';
 import { BookEditComponent } from './pages/book/book-edit/book-edit.component';
 import { MascotaComponent } from './pages/mascota/mascota.component';
 import { MascotaEditComponent } from './pages/mascota/mascota-edit/mascota-edit.component';
-import { LoginComponent } from './pages/login/login.component';
+
 import { LayoutComponent } from './pages/layout/layout.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
 
